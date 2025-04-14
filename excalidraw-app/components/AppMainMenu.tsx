@@ -29,6 +29,37 @@ export const AppMainMenu: React.FC<{
       <MainMenu.DefaultItems.SaveToActiveFile />
       <MainMenu.DefaultItems.Export />
       <MainMenu.DefaultItems.SaveAsImage />
+      <MainMenu.Item
+  icon={MainMenu.DefaultItems.SaveAsImage.icon}
+  onSelect={async () => {
+    const scene = window.__EXCALIDRAW_APP__;
+    if (!scene) {
+      alert("Scene not available.");
+      return;
+    }
+
+    const elements = getNonDeletedElements(scene.getSceneElements());
+    const appState = scene.getAppState();
+
+    const canvas = await exportToCanvas({
+      elements,
+      appState: {
+        ...appState,
+        exportWithDarkMode: false,
+        exportBackground: true,
+      },
+      files: scene.getFiles(),
+    });
+
+    const link = document.createElement("a");
+    link.download = "excalidraw.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  }}
+>
+  Quick Download PNG
+</MainMenu.Item>
+
       {props.isCollabEnabled && (
         <MainMenu.DefaultItems.LiveCollaborationTrigger
           isCollaborating={props.isCollaborating}
