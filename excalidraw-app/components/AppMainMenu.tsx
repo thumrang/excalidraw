@@ -57,7 +57,7 @@ export const AppMainMenu: React.FC<{
     link.click();
   }}
 >
-  Quick Download PNG
+  Quick Download PN
 </MainMenu.Item>
 
       {props.isCollabEnabled && (
